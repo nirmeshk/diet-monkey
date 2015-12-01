@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/nirmeshk/stress-monkey/issues"
   },
-  "homepage": "https://github.com/nirmeshk/stress-monkey#readme"
+  "homepage": "https://github.com/nirmeshk/stress-monkey#readme",
+  "dependencies": {
+    "request": "^2.67.0"
+  }
 }
