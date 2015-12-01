@@ -1,2 +1,8 @@
 [master]
-54.152.22.71 ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/nirmesh/.ssh/
+54.152.22.71 ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_private_key_file=$HOME/.ssh/
+52.91.27.129 ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_private_key_file=$HOME/.ssh/
+52.23.186.191 ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_private_key_file=$HOME/.ssh/
+[slaves]
+162.243.63.238 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=$HOME/.ssh/
+107.170.161.31 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=$HOME/.ssh/
+45.55.2.103 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=$HOME/.ssh/

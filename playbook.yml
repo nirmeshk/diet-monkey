@@ -33,3 +33,10 @@
     - name: Install mesosphere
       sudo: yes
       apt: name=mesosphere state=latest update_cache=yes
+
+- hosts: slaves
+  sudo: yes
+  tasks: 
+    - name: Install mesosphere
+      sudo: yes
+      apt: name=mesos state=latest update_cache=yes
