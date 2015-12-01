@@ -1,11 +1,14 @@
-var request = require('request')
+var request = require('request');
 var io = require('socket.io')(5001);
 
-
- 
 //n = 2   // Number of burst requests that we sent out in an interval
 
-var app_url = 'http://162.243.55.160:8080/mathy';
+if(process.argv.length < 3) {
+    console.log("Please supply urls to test")
+    process.exit(1)
+}
+
+var app_url = process.argv[2];
 var n = 0
 var allLatency = {} 
 var allErrors = {}
