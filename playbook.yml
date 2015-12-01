@@ -40,3 +40,9 @@
     - name: Install mesosphere
       sudo: yes
       apt: name=mesos state=latest update_cache=yes
+    - name: Prep for NodeJS
+      sudo: yes
+      shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+    - name: Install NodeJS
+      sudo: yes
+      apt: name=nodejs state=latest update_cache=yes
