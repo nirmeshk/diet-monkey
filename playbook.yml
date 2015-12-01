@@ -21,6 +21,9 @@
     - name: Start app with forever
       command: forever start /home/ubuntu/application/appEndpoint.js
       when: "forever_list.stdout.find('/home/ubuntu/application/appEndpoint.js') == -1"
+    - name: Restart app if currently running
+      command: forever restart /home/ubuntu/application/appEndpoint.js
+      when: "forever_list.stdout.find('/home/ubuntu/application/appEndpoint.js') != -1"
 - hosts: proxy
   sudo: yes
   tasks:
@@ -36,6 +39,9 @@
     - name: Start app with forever
       command: forever start /root/application/stressProxy.js
       when: "forever_list.stdout.find('/root/application/stressProxy.js') == -1"
+    - name: Restart app if currently running
+      command: forever restart /root/application/stressProxy.js
+      when: "forever_list.stdout.find('/root/application/stressProxy.js') != -1"
 - hosts: monkey
   tasks:
     - name: Copy monkey

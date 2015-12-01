@@ -37,10 +37,14 @@ app.get('/mathy', function(req, res) {
   var ans = [];
   for(var i = 0; i < 1000; i++) {
     for(var j = 0; j < 1000; j++) {
-      ans.push(i * j);
+      ans.push(Math.cos(i) * Math.sqrt(j));
     }
   }
-  res.send(ans);
+  var sum = 0;
+  for(var i = 0; i < ans.length; i++) {
+    sum += ans[i];
+  }
+  res.send(sum);
 });
 
 app.get('/fileOps', function(req, res) {
