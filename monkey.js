@@ -11,7 +11,7 @@ var allLatency = {}
 var allErrors = {}
 
 var loop = function(){
-    n = n + 30;
+    n = n + 100;
     key = n //Math.floor(Date.now() / 1000)
     var startTime = Date.now();
     allLatency[key] = 0
@@ -39,6 +39,7 @@ io.on('connection', function(socket){
   setInterval(function(){
     io.emit('error', JSON.stringify(allErrors));
     io.emit('latency', JSON.stringify(allLatency));
+    io.emit('url', app_url);
     console.log('###################')
     console.log(allLatency);
     console.log('###################')

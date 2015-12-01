@@ -1,0 +1,172 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Core CSS - Include with every page -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link type="textcss" rel="stylesheet" href="css/font-awesome.css">
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link type="textcss" rel="stylesheet" href="css/sb-admin.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+ <script src="js/jquery.metisMenu.js"></script>
+
+ <script src="js/sb-admin.js"></script>
+ <script src="js/d3.min.js"></script>
+ <script src="js/d3.layout.min.js"></script>
+ <script src="js/rickshaw.min.js"></script>
+ <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+
+    <title>Dashcam</title>
+        
+    
+<link rel="stylesheet" href="css/rickshaw.min.css">
+<style>
+[id^=y_axis] {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        max-width: 40px;
+}
+[id^=chart_container] {
+        position: relative;
+        font-family: Arial, Helvetica, sans-serif;
+}
+.rickshaw_graph .y_ticks {
+        left: 0;
+}
+[id^=chart] {
+        position: relative;
+        left: 40px;
+        padding-bottom: 25px;
+        padding-right: 15px;
+}
+
+#endpoint{
+
+    padding-left: 10px;
+}
+</style>
+
+</head>
+<body>
+<h2 id="endpoint"></h2>
+<div class="col-lg-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> Errors
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="chart_container_error">
+                <div class="detail" ></div>
+            	<div id="y_axis_error"></div>
+                <div id="chart_error"></div>
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-info-sign"></span> Latency
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="chart_container_latency">
+                <div class="detail" ></div>
+                <div id="y_axis_latency"></div>
+                <div id="chart_latency"></div>
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+ </div>
+ 
+<script>
+
+var data_error = [ { x: 0, y: 0 }];
+var data_latency = [ { x: 0, y: 0 }];
+
+var graph_error = new Rickshaw.Graph( {
+        element: document.querySelector("#chart_error"),
+        width: 580,
+        height: 400,
+        renderer:'line',
+        preserve: true,
+        series: [ {
+                color: 'red',
+                data: data_error
+            } ]
+} );
+
+var graph_latency = new Rickshaw.Graph( {
+        element: document.querySelector("#chart_latency"),
+        width: 580,
+        height: 400,
+         renderer:'line',
+         preserve:true,
+        series: [ {
+                color: 'steelblue',
+                data: data_latency
+            } ]
+} );
+
+var y_axis_error = new Rickshaw.Graph.Axis.Y( {
+        graph: graph_error,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y_axis_error'),
+} );
+var y_axis_latency = new Rickshaw.Graph.Axis.Y( {
+        graph: graph_latency,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y_axis_latency'),
+} );
+var x_axis_error = new Rickshaw.Graph.Axis.X( { graph: graph_error } );
+
+var x_axis_latency = new Rickshaw.Graph.Axis.X( { graph: graph_latency } );
+
+graph_error.render();
+graph_latency.render();
+
+var socket = io.connect('http://localhost:5001');
+
+socket.on("error", function(client) 
+{
+    console.log(JSON.stringify(client));
+    var obj = JSON.parse(client);
+    for(key in obj){
+        data_error.push({x: parseInt(key), y: obj[key]}) 
+    }
+    var error_num_requests = data_error.pop();
+    console.log(data_error);
+
+    graph_error.update();
+});
+
+socket.on("latency", function(client) 
+{
+    console.log(JSON.stringify(client));
+    var obj = JSON.parse(client);
+    for(key in obj){
+        data_latency.push({x: parseInt(key), y: obj[key]}) 
+    }
+    var latency_num_requests = data_latency.pop();
+    console.log(data_latency);
+
+    graph_latency.update();
+});
+
+socket.on("url", function(client) 
+{
+    document.getElementById("endpoint").innerHTML = client;
+});
+
+</script>
+</body>
+</html>
