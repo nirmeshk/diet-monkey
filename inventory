@@ -1,8 +1,8 @@
-[master]
-54.152.22.71 ansible_connection=ssh ansible_ssh_user=ubuntu 
-52.91.27.129 ansible_connection=ssh ansible_ssh_user=ubuntu 
-52.23.186.191 ansible_connection=ssh ansible_ssh_user=ubuntu 
-[slaves]
-162.243.63.238 ansible_connection=ssh ansible_ssh_user=root 
-107.170.161.31 ansible_connection=ssh ansible_ssh_user=root 
-45.55.2.103 ansible_connection=ssh ansible_ssh_user=root 
+[app-servers]
+54.88.179.176 ansible_connection=ssh ansible_ssh_user=ubuntu 
+54.84.21.20 ansible_connection=ssh ansible_ssh_user=ubuntu 
+54.164.23.136 ansible_connection=ssh ansible_ssh_user=ubuntu 
+[proxy]
+162.243.55.160 ansible_connection=ssh ansible_ssh_user=root 
+[monkey]
+162.243.96.64 ansible_connection=ssh ansible_ssh_user=root

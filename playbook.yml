@@ -1,48 +1,8 @@
 ---
 - hosts: all
   sudo: yes
-  tasks:
-    - name: add webupd8team repo
-      sudo: yes
-      apt_repository: repo='ppa:webupd8team/java'
-
-    - name: Accept Java 8 Licence
-      shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | tee /etc/oracle-java-8-licence-acceptance | /usr/bin/debconf-set-selections
-      args:
-        creates: /etc/oracle-java-8-licence-acceptance
-    
-    - name: Install Oracle Java 8
-      apt: name={{item}} state=latest
-      with_items:
-        - oracle-java8-installer
-        - ca-certificates
-        - oracle-java8-set-default
-      
-    - name: Install the mesosphere keys
-      sudo: yes
-      apt_key: keyserver=keyserver.ubuntu.com id=E56151BF
-    
-    - name: set variables  
-      shell: DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]'); CODENAME=$(lsb_release -cs); echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" | tee /etc/apt/sources.list.d/mesosphere.list
-      args:
-        creates: /etc/apt/sources.list.d/mesosphere.list
-
-- hosts: master
-  sudo: yes
-  tasks: 
-    - name: Install mesosphere
-      sudo: yes
-      apt: name=mesosphere state=latest update_cache=yes
-    - name: Prep for NodeJS
-      sudo: yes
+  tasks:   
+    - name: Prepare for nodejs installation
       shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-    - name: Install NodeJS
-      sudo: yes
+    - name: install nodejs
       apt: name=nodejs state=latest update_cache=yes
-
-- hosts: slaves
-  sudo: yes
-  tasks: 
-    - name: Install mesos
-      sudo: yes
-      apt: name=mesos state=latest update_cache=yes
