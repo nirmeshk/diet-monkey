@@ -1,0 +1,15 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+    - name: Installs JDK
+      sudo: yes
+      apt_repository: repo='ppa:webupd8team/java'
+      apt: pkg=oracle-java8-installer state=installed update_cache=true
+      
+    - name: Install the mesosphere keys
+      sudo: yes
+      apt_key: keyserver=keyserver.ubuntu.com id=E56151BF
+      command: DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+      command: CODENAME=$(lsb_release -cs)
+      command: echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" | tee /etc/apt/sources.list.d/mesosphere.list
