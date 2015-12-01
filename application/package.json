@@ -1,0 +1,25 @@
+{
+  "name": "stress-monkey",
+  "version": "1.0.0",
+  "description": "A stree testing tool for web application",
+  "main": "monkey.js",
+  "dependencies": {
+    "express": "3.0.0alpha4",
+    "http": "0.0.0",
+    "http-proxy": "^1.12.0",
+    "socket.io": "~1.3.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirmeshk/stress-monkey.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nirmeshk/stress-monkey/issues"
+  },
+  "homepage": "https://github.com/nirmeshk/stress-monkey#readme"
+}
