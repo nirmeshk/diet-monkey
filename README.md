@@ -1,2 +1,2 @@
-# diet-monkey
-A resource revocation monkey for testing the application under different conditions of resources availability
+# stress-monkey
+Stress test the application to see how many requests the server can handle.
