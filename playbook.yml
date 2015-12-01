@@ -6,3 +6,37 @@
       shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
     - name: install nodejs
       apt: name=nodejs state=latest update_cache=yes
+- hosts: app-servers
+  sudo: yes
+  tasks:
+    - name: Copy application
+      copy: src=application dest=/home/ubuntu
+    - name: Install package.json
+      npm: path=/home/ubuntu/application
+      npm: name=forever global=yes state=latest
+    - name: "Check list of Node.js apps running."
+      command: forever list
+      register: forever_list
+      changed_when: false
+    - name: Start app with forever
+      command: forever start /home/ubuntu/application/appEndpoint.js
+      when: "forever_list.stdout.find('/home/ubuntu/application/appEndpoint.js') == -1"
+- hosts: proxy
+  sudo: yes
+  tasks:
+    - name: Copy application
+      copy: src=application dest=/root
+    - name: Install package.json
+      npm: path=/root/application
+      npm: name=forever global=yes state=latest
+    - name: "Check list of Node.js apps running."
+      command: forever list
+      register: forever_list
+      changed_when: false
+    - name: Start app with forever
+      command: forever start /root/application/stressProxy.js
+      when: "forever_list.stdout.find('/root/application/stressProxy.js') == -1"
+- hosts: monkey
+  tasks:
+    - name: Copy monkey
+      copy: src=monkey.js dest=/root
