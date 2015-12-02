@@ -17,7 +17,7 @@ var allErrors = {}
 var exceedsLatency = {}
 
 var loop = function(){
-    n = n + 100;
+    n = n + 50;
     key = n //Math.floor(Date.now() / 1000)
     var startTime = Date.now();
     allLatency[key] = 0

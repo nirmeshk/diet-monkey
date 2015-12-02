@@ -96,7 +96,6 @@ var graph_error = new Rickshaw.Graph( {
         width: 580,
         height: 400,
         renderer:'line',
-        preserve: true,
         series: [ {
                 color: 'red',
                 data: data_error
@@ -108,7 +107,6 @@ var graph_latency = new Rickshaw.Graph( {
         width: 580,
         height: 400,
          renderer:'line',
-         preserve:true,
         series: [ {
                 color: 'steelblue',
                 data: data_latency
@@ -138,28 +136,28 @@ var socket = io.connect('http://localhost:5001');
 
 socket.on("error", function(client) 
 {
-    console.log(JSON.stringify(client));
+    //console.log(JSON.stringify(client));
+    var temp_data_points_error = [];
     var obj = JSON.parse(client);
     for(key in obj){
-        data_error.push({x: parseInt(key), y: obj[key]}) 
+        temp_data_points_error.push({x: parseInt(key), y: obj[key]}) 
     }
-    var error_num_requests = data_error.pop();
-    console.log(data_error);
-
-    graph_error.update();
+    var error_num_requests = temp_data_points_error.pop();
+    graph_error.series[0].data = temp_data_points_error;
+    graph_error.render();
 });
 
 socket.on("latency", function(client) 
 {
-    console.log(JSON.stringify(client));
     var obj = JSON.parse(client);
+    var temp_data_points = [];
     for(key in obj){
-        data_latency.push({x: parseInt(key), y: obj[key]}) 
+        temp_data_points.push({x: parseInt(key), y: obj[key]}) 
     }
-    var latency_num_requests = data_latency.pop();
-    console.log(data_latency);
+    var latency_num_requests = temp_data_points.pop();
+    graph_latency.series[0].data = temp_data_points;
 
-    graph_latency.update();
+    graph_latency.render();
 });
 
 socket.on("url", function(client) 
