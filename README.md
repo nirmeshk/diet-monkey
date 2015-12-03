@@ -7,6 +7,10 @@ This repository contains the implementation for a Stress Monkey service that str
 
 Targeting the different endpoints essentially tests the application to see how many requests the server can handle in regards to a specific request. This is necessary to confirm the assumption that computationally intensive tasks and File I/O tasks will reach higher latency or errors for responses when throttling begins to occur. Using this method gives developers an approximate threshold for implementing a loadbalancer to distribute traffic to nodes based on the effective stress of a certain request on the system.
 
+When stress testing the <code>\<IP address\>:3000/mathy</code> endpoint, incrementing the number of request sent by 50 per batch of requests, we received this output:
+![Output](http://i.imgur.com/2AuBeCH.png)
+Notice in the graph when 600 requests are sent, the latency drops to zero because all the responses returned as errors. As the system cleans up resources, it is able to recover but then bottoms out again repetitively over receiving such sizeable loads.
+
 We have an example of the loadbalancing functionality in our codebase by routing all traffic initially through a node hosting  <code>application/stressProxy.js</code>. Keeping track of which nodes are servicing which request, we can route traffic to nodes with less stress to ensure the lowest possible latency on responses. However, there is still the possible case that our loadbalancer gets throttled with requests. We handle this misuse case by making our stress proxy also operate as a Decoy Monkey service.
 
 If the Decoy Monkey receives an inordinate amount of requests, it is most likely from a possible DDoS attack.TODO
