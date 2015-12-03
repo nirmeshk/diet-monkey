@@ -1,7 +1,7 @@
 # stress-monkey
 
 This repository contains the implementation for a Stress Monkey service that stress tests specified application endpoints. To operate the service, you must first have a basic web application running preferably exposed with a public IP address on a different server than the stress monkey service to get reliable metrics.  We have provided a sample application inside <code>application/appEndpoint.js</code> file. This application conatainst the following endpoints:
-- <code><IP address>:3000/</code> = Simple index page endpoint
+- <code>\<IP address\>:3000/</code> = Simple index page endpoint
 - <code><IP address>:3000/mathy</code>  = Comuptationally intensive matrix multiplication endpoint
 - <code><IP address>:3000/fileOps</code>  = File I/O endpoiont
 
