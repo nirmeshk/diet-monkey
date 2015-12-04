@@ -84,12 +84,28 @@
         </div>
         <!-- /.panel-body -->
     </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-info-sign"></span> Latency Exceeds Threshold
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div id="chart_container_exceeds_latency">
+                <div class="detail" ></div>
+                <div id="y_axis_exceeds_latency"></div>
+                <div id="chart_exceeds_latency"></div>
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
  </div>
  
 <script>
 
 var data_error = [ { x: 0, y: 0 }];
 var data_latency = [ { x: 0, y: 0 }];
+var data_exceeds_latency = [ { x: 0, y: 0 }];
 
 var graph_error = new Rickshaw.Graph( {
         element: document.querySelector("#chart_error"),
@@ -102,6 +118,16 @@ var graph_error = new Rickshaw.Graph( {
             } ]
 } );
 
+var y_axis_error = new Rickshaw.Graph.Axis.Y( {
+        graph: graph_error,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y_axis_error'),
+} );
+
+var x_axis_error = new Rickshaw.Graph.Axis.X( { graph: graph_error } );
+
+
 var graph_latency = new Rickshaw.Graph( {
         element: document.querySelector("#chart_latency"),
         width: 580,
@@ -113,24 +139,40 @@ var graph_latency = new Rickshaw.Graph( {
             } ]
 } );
 
-var y_axis_error = new Rickshaw.Graph.Axis.Y( {
-        graph: graph_error,
-        orientation: 'left',
-        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-        element: document.getElementById('y_axis_error'),
-} );
 var y_axis_latency = new Rickshaw.Graph.Axis.Y( {
         graph: graph_latency,
         orientation: 'left',
         tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
         element: document.getElementById('y_axis_latency'),
 } );
-var x_axis_error = new Rickshaw.Graph.Axis.X( { graph: graph_error } );
 
 var x_axis_latency = new Rickshaw.Graph.Axis.X( { graph: graph_latency } );
 
+var graph_exceeds_latency = new Rickshaw.Graph( {
+        element: document.querySelector("#chart_exceeds_latency"),
+        width: 580,
+        height: 400,
+         renderer:'line',
+        series: [ {
+                color: 'orange',
+                data: data_exceeds_latency
+            } ]
+} );
+
+var y_axis_exceeds_latency = new Rickshaw.Graph.Axis.Y( {
+        graph: graph_exceeds_latency,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y_axis_exceeds_latency'),
+} );
+
+var x_axis_exceeds_latency = new Rickshaw.Graph.Axis.X( { graph: graph_exceeds_latency } );
+
+
 graph_error.render();
 graph_latency.render();
+graph_exceeds_latency.render();
+
 
 var socket = io.connect('http://localhost:5001');
 
@@ -158,6 +200,19 @@ socket.on("latency", function(client)
     graph_latency.series[0].data = temp_data_points;
 
     graph_latency.render();
+});
+
+socket.on("exceedsLatency", function(client) 
+{
+    var obj = JSON.parse(client);
+    var temp_data_points = [];
+    for(key in obj){
+        temp_data_points.push({x: parseInt(key), y: obj[key]}) 
+    }
+    var exceeds_latency_num_requests = temp_data_points.pop();
+    graph_exceeds_latency.series[0].data = temp_data_points;
+
+    graph_exceeds_latency.render();
 });
 
 socket.on("url", function(client) 
