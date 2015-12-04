@@ -5,7 +5,10 @@ This repository contains the implementation for a Stress Monkey service that str
 - <code>\<IP address\>:3000/mathy</code>  = Comuptationally intensive matrix multiplication endpoint
 - <code>\<IP address\>:3000/fileOps</code>  = File I/O endpoiont
 
-Targeting the different endpoints essentially tests the application to see how many requests the server can handle in regards to a specific request. This is necessary to confirm the assumption that computationally intensive tasks and File I/O tasks will reach higher latency or errors for responses when throttling begins to occur. Using this method gives developers an approximate threshold for implementing a loadbalancer to distribute traffic to nodes based on the effective stress of a certain request on the system.
+Targeting the different endpoints essentially tests the application to see how many requests the server can handle in regards to a specific request. This is necessary to confirm the assumption that computationally intensive tasks and File I/O tasks will reach higher latency or errors for responses when throttling begins to occur. Using this method gives developers an approximate threshold for implementing a loadbalancer to distribute traffic to nodes based on the effective stress of a certain request on the system. When the code inside the website folder is hosted on the same server as the <code>monkey.js</code> service, you can follow the metrics in terms of the three provided graphs:
+- The number of errors from a batch of requests
+- The average latency over a batch of requests
+- The number of times latency exceeds the developer specified threshold in a batch of requests
 
 When stress testing the <code>\<IP address\>:3000/mathy</code> endpoint, incrementing the number of request sent by 50 per batch of requests, we received this output:
 ![Output](http://i.imgur.com/2AuBeCH.png)
@@ -16,7 +19,5 @@ We have an example of the loadbalancing functionality in our codebase by routing
 If the Decoy Monkey receives an inordinate amount of requests, it is most likely from a possible DDoS attack.TODO
 
 
-- [ ] Update README for the description of project
 - [ ] Update Proxy Server to have latency check and decoy monkey.
-- [ ] Add the graph of requests with more latency than threshold.
 
