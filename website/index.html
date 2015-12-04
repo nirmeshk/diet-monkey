@@ -114,7 +114,8 @@ var graph_error = new Rickshaw.Graph( {
         renderer:'line',
         series: [ {
                 color: 'red',
-                data: data_error
+                data: data_error,
+                name: "Errors"
             } ]
 } );
 
@@ -126,7 +127,7 @@ var y_axis_error = new Rickshaw.Graph.Axis.Y( {
 } );
 
 var x_axis_error = new Rickshaw.Graph.Axis.X( { graph: graph_error } );
-
+var detail_error = new Rickshaw.Graph.HoverDetail({ graph: graph_error });
 
 var graph_latency = new Rickshaw.Graph( {
         element: document.querySelector("#chart_latency"),
@@ -135,7 +136,8 @@ var graph_latency = new Rickshaw.Graph( {
          renderer:'line',
         series: [ {
                 color: 'steelblue',
-                data: data_latency
+                data: data_latency,
+                name: "Average Latency"
             } ]
 } );
 
@@ -147,6 +149,7 @@ var y_axis_latency = new Rickshaw.Graph.Axis.Y( {
 } );
 
 var x_axis_latency = new Rickshaw.Graph.Axis.X( { graph: graph_latency } );
+var detail_latency = new Rickshaw.Graph.HoverDetail({ graph: graph_latency });
 
 var graph_exceeds_latency = new Rickshaw.Graph( {
         element: document.querySelector("#chart_exceeds_latency"),
@@ -155,7 +158,8 @@ var graph_exceeds_latency = new Rickshaw.Graph( {
          renderer:'line',
         series: [ {
                 color: 'orange',
-                data: data_exceeds_latency
+                data: data_exceeds_latency,
+                name: "Excessive Latency Responses"
             } ]
 } );
 
@@ -167,6 +171,7 @@ var y_axis_exceeds_latency = new Rickshaw.Graph.Axis.Y( {
 } );
 
 var x_axis_exceeds_latency = new Rickshaw.Graph.Axis.X( { graph: graph_exceeds_latency } );
+var detail_exceeds_latency = new Rickshaw.Graph.HoverDetail({ graph: graph_exceeds_latency });
 
 
 graph_error.render();
