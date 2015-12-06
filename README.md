@@ -19,5 +19,5 @@ We have an example of the loadbalancing functionality in our codebase by routing
 If the Decoy Monkey receives an inordinate amount of requests, it is most likely from a possible DDoS attack.TODO
 
 
-- [ ] Update Proxy Server to have latency check and decoy monkey.
+- [ ] Update Proxy Server to have latency check and decoy monkey. Trey is working on this.
 
