@@ -24,5 +24,5 @@ Every second, we readd one node from the overloaded set, and if none remain, we 
 
 ![Decoy Monkey screencast](https://i.imgur.com/asKO78P.gif)
 
-Notice that when I stop the appEndpoint running on 3000, the proxy removes it from the list of server sending requests (servers still serving requests goes from 3 to 2). After I restart it, it gets added back receives requests again.
+Notice that when I stop the appEndpoint running on 3000, the proxy removes it from the list of server sending requests (servers still serving requests goes from 3 to 2). After I restart it, it gets added back to receive requests again.
 
