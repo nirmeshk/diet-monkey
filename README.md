@@ -22,7 +22,7 @@ If the Decoy Monkey receives an inordinate amount of requests, it is most likely
 
 Every second, we readd one node from the overloaded set, and if none remain, we stop redirecting 10% of the requests.
 
-![Decoy Monkey screencast](http://i.imgur.com/khqc2vd.gif)
+![Decoy Monkey screencast](https://i.imgur.com/asKO78P.gif)
 
 Notice that when I stop the appEndpoint running on 3000, the proxy removes it from the list of server sending requests (servers still serving requests goes from 3 to 2). After I restart it, it gets added back receives requests again.
 
