@@ -19,5 +19,11 @@ We have an example of the loadbalancing functionality in our codebase by routing
 If the Decoy Monkey receives an inordinate amount of requests, it is most likely from a possible DDoS attack.TODO
 
 
-- [ ] Update Proxy Server to have latency check and decoy monkey.
+- The proxy server also sends hearbeat checks to each of the appEndpoint nodes every 5 seconds, and if any of them are too slow to respond, that node is temporarily put into the overloaded set, and 10% of all requests are returned with a 503 status for server overloaded. 
+
+Every second, we readd one node from the overloaded set, and if none remain, we stop redirecting 10% of the requests.
+
+![Decoy Monkey screencast](http://i.imgur.com/khqc2vd.gif)
+
+Notice that when I stop the appEndpoint running on 3000, the proxy removes it from the list of server sending requests (servers still serving requests goes from 3 to 2). After I restart it, it gets added back receives requests again.
 

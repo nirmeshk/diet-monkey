@@ -47,6 +47,10 @@ app.get('/mathy', function(req, res) {
   res.send('Result is: ' + sum);
 });
 
+app.get('/tooBusy', function(req, res) {
+  res.send(404);
+});
+
 app.get('/fileOps', function(req, res) {
   fs.appendFileSync('gettingBig', 'bettingGig\n');
   res.send('wrote to file!');
